@@ -44,9 +44,10 @@ MaxHeap := Object clone do(
 )
 
 isLaunchScript ifTrue(
-	heap := MaxHeap with(list(3, 1, 4, 1, 5, 9))
-	heap push(6)
-	heap data println
+	MaxHeap with(list(3, 1, 4, 1, 5, 9)) do(
+		push(6)
+		data println
+	)
 )
 
 

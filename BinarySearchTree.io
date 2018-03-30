@@ -57,14 +57,13 @@ BinarySearchTree := Object clone do(
 )
 
 isLaunchScript ifTrue(
-	s := list(4, 3, 1, 2, 8, 7, 16, 10, 9, 14)
-
-	tree := BinarySearchTree withList(s)
-	tree min println
-	tree max println
-	tree lookup(1) println
-	tree lookup(100) println
-	tree traverse(block(e, e println))
+	BinarySearchTree withList(list(4, 3, 1, 2, 8, 7, 16, 10, 9, 14)) do(
+		min println
+		max println
+		lookup(1) println
+		lookup(100) println
+		traverse(block(e, e println))
+	)
 )
 
 
