@@ -20,16 +20,17 @@ BinarySearchTree := Object clone do(
 		)
 	)
 
-	PREORDER := 0
-	INORDER := 1
-	POSTORDER := 2
+	foreach := method(
+		call delegateTo(left)
 
-	traverse := method(callback, order,
-		order ifNilEval(INORDER) switch(
-			PREORDER, callback call(key); left traverse(callback, PREORDER); right traverse(callback, PREORDER),
-			INORDER, left traverse(callback, INORDER); callback call(key); right traverse(callback, INORDER),
-			POSTORDER, left traverse(callback, POSTORDER); right traverse(callback, POSTORDER); callback call(key)
-		)
+		itor_name := call argAt(0) name 
+		context := Object clone appendProto(call sender)
+		context setSlot(itor_name, key)
+		context doMessage(call argAt(1))
+
+		call delegateTo(right)
+
+		self
 	)
 
 	lookup := method(k,
@@ -49,10 +50,10 @@ BinarySearchTree := Object clone do(
 
 	null := clone do(
 		insert = method(k, BinarySearchTree createLeaf(k))
-		traverse = method(order, callback, self)
 		lookup = method(nil)		
 		min = method(nil)
 		max = method(nil)
+		foreach = method(self)
 	)
 )
 
@@ -62,7 +63,8 @@ isLaunchScript ifTrue(
 		max println
 		lookup(1) println
 		lookup(100) println
-		traverse(block(e, e println))
+
+		foreach(x, "(#{x})" interpolate println)
 	)
 )
 
