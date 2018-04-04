@@ -59,8 +59,7 @@ BinarySearchTree := Object clone do(
 
 isLaunchScript ifTrue(
 	BinarySearchTree withList(list(4, 3, 1, 2, 8, 7, 16, 10, 9, 14)) do(
-		min println
-		max println
+		"max = #{max}, min = #{min}" interpolate println
 		lookup(1) println
 		lookup(100) println
 
