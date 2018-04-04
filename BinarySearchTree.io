@@ -5,7 +5,7 @@ BinarySearchTree := Object clone do(
 	left ::= nil // the smaller subtree
 	right ::= nil // the bigger subtree
 
-	createLeaf := method(k, 
+	withLeaf := method(k, 
 		self clone setKey(k) setLeft(null) setRight(null)
 	)
 
@@ -49,7 +49,7 @@ BinarySearchTree := Object clone do(
 	)
 
 	null := clone do(
-		insert = method(k, BinarySearchTree createLeaf(k))
+		insert = method(k, BinarySearchTree withLeaf(k))
 		lookup = method(nil)		
 		min = method(nil)
 		max = method(nil)
