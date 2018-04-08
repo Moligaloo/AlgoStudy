@@ -23,10 +23,14 @@ BinarySearchTree := Object clone do(
 	foreach := method(
 		call delegateTo(left)
 
-		itor_name := call argAt(0) name 
-		context := Object clone appendProto(call sender)
-		context setSlot(itor_name, key)
-		context doMessage(call argAt(1))
+		if(call argCount > 1) then(
+			itor_name := call argAt(0) name 
+			context := Object clone appendProto(call sender)
+			context setSlot(itor_name, key)
+			context doMessage(call argAt(1))
+		) elseif(call argCount == 1) then(
+			key doMessage(call argAt(0))
+		)
 
 		call delegateTo(right)
 
