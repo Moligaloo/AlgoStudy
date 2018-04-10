@@ -2,16 +2,18 @@
 
 // https://en.wikipedia.org/wiki/Trie
 
+// "prefix tree" is also known as "trie"
+
 PrefixTree := Object clone do(
-	key ::= nil
 	subtrees ::= nil
 
 	init := method(
-		setKey(nil) setSubtrees(Map clone)
+		setSubtrees(Map clone)
 	)
 
 	insert := method(k,
-		do(k asList reduce(tree, char, tree subtrees atIfAbsentPut(char, PrefixTree clone), self) setKey(k))
+		(k asList reduce(tree, char, tree subtrees atIfAbsentPut(char, PrefixTree clone), self)) subtrees atPut("", k)
+		self
 	)
 
 	subTreeWithPrefix := method(prefix,
@@ -19,21 +21,21 @@ PrefixTree := Object clone do(
 	)
 
 	foreach := method(
-		key ifNonNil(
-			context := Object clone appendProto(call sender)
-			context setSlot(call argAt(0) name, key)
-			context doMessage(call argAt(1))
-		)
-
 		subtrees foreach(subtree, 
-			call delegateTo(subtree)
+			if(subtree hasProto(PrefixTree), 
+				// call recursively
+				call delegateTo(subtree), 
+				// leaf node
+				context := Object clone appendProto(call sender)
+				context setSlot(call argAt(0) name, subtree)
+				context doMessage(call argAt(1))
+			)
 		)
 	)
 )
 
 isLaunchScript ifTrue(
-	tree := PrefixTree clone
-	tree insert("to") insert("today") insert("good")
-	tree subTreeWithPrefix("t") foreach(x, x println)
+	tree := list("to", "today", "good") reduce(tree, word, tree insert(word), PrefixTree clone)
+	tree subTreeWithPrefix("to") foreach(x, x println)
 )
 
