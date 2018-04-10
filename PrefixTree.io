@@ -1,5 +1,7 @@
 #!/usr/bin/env io
 
+// https://en.wikipedia.org/wiki/Trie
+
 PrefixTree := Object clone do(
 	key ::= nil
 	subtrees ::= nil
