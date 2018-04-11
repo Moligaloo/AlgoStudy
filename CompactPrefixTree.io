@@ -53,6 +53,28 @@ CompactPrefixTree := Object clone do(
 		return self
 	)
 
+	subTreeWithPrefix := method(prefix,
+		subtrees foreach(key, subtree,
+			common_prefix := key longestCommonPrefix(prefix)
+			if(common_prefix,
+				if(common_prefix == prefix,
+					return subtree,
+					return subtree subTreeWithPrefix(prefix exSlice(common_prefix size))
+					)
+			)
+		)
+	)
+
+	foreach := method(
+		leaf ifNonNil(
+			context := Object clone appendProto(call sender)
+			context setSlot(call argAt(0) name, leaf)
+			context doMessage(call argAt(1))
+		)
+
+		subtrees foreach(key, subtree, call delegateTo(subtree))
+	)
+
 	asMap := method(
 		map := Map clone
 
@@ -74,4 +96,6 @@ isLaunchScript ifTrue(
 	)
 
 	tree asMap asJson println
+
+	tree subTreeWithPrefix("te") foreach(x, x println)
 )
