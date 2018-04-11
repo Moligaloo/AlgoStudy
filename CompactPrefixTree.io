@@ -34,14 +34,14 @@ CompactPrefixTree := Object clone do(
 			if(prefix,
 				if(prefix == key,
 					// case 1. insert recursively
-					subtree insert(full_key, edge asMutable removePrefix(prefix)),
+					subtree insert(full_key, edge exSlice(prefix size)),
 
 					// case 2. find common prefix, split it,
 					subtrees removeAt(key)
 
 					new_tree := CompactPrefixTree clone
-					new_tree  atPut(key asMutable removePrefix(prefix), subtree)
-					new_tree  atPut(edge asMutable removePrefix(prefix), CompactPrefixTree withLeaf(full_key))
+					new_tree  atPut(key exSlice(prefix size), subtree)
+					new_tree  atPut(edge exSlice(prefix size), CompactPrefixTree withLeaf(full_key))
 
 					subtrees atPut(prefix, new_tree)
 				)
