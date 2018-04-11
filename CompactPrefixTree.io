@@ -57,10 +57,11 @@ CompactPrefixTree := Object clone do(
 		subtrees foreach(key, subtree,
 			common_prefix := key longestCommonPrefix(prefix)
 			if(common_prefix,
-				if(common_prefix == prefix,
-					return subtree,
-					return subtree subTreeWithPrefix(prefix exSlice(common_prefix size))
-					)
+				return if(
+					common_prefix == prefix,
+					subtree,
+					subtree subTreeWithPrefix(prefix exSlice(common_prefix size))
+				)
 			)
 		)
 	)
