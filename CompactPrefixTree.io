@@ -72,7 +72,7 @@ CompactPrefixTree := Object clone do(
 			context doMessage(call argAt(1))
 		)
 
-		subtrees foreach(key, subtree, call delegateTo(subtree))
+		subtrees foreach(subtree, call delegateTo(subtree))
 	)
 
 	asMap := method(
