@@ -33,8 +33,7 @@ CompactPrefixTree := Object clone do(
 					subtree insert(full_key, edge exSlice(prefix size)),
 
 					// case 2. find common prefix, split it,
-					subtrees removeAt(key)
-					subtrees atPut(
+					subtrees removeAt(key) atPut(
 						prefix,
 						CompactPrefixTree clone setSubtrees(
 							Map with(
