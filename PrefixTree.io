@@ -11,6 +11,10 @@ PrefixTree := Object clone do(
 		setSubtrees(Map clone)
 	)
 
+	with := method(
+		list(self clone) appendSeq(call evalArgs) reduce(insert)
+	)
+
 	insert := method(k,
 		(k asList reduce(tree, char, tree subtrees atIfAbsentPut(char, PrefixTree clone), self)) subtrees atPut("", k)
 		self
@@ -41,7 +45,7 @@ PrefixTree := Object clone do(
 )
 
 isLaunchScript ifTrue(
-	tree := list("to", "today", "good") reduce(tree, word, tree insert(word), PrefixTree clone)
+	tree := PrefixTree with("to", "today", "good")
 	tree asMap asJson println
 	tree subTreeWithPrefix("to") foreach(x, x println)
 )
