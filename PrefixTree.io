@@ -20,6 +20,14 @@ PrefixTree := Object clone do(
 		prefix asList reduce(tree, char, tree subtrees at(char) ifNil(break(nil)), self)
 	)
 
+	asMap := method(
+		map := Map clone
+		subtrees foreach(key, subtree,
+			map atPut(key, if(subtree hasProto(Sequence), subtree, subtree asMap))
+		)
+		map
+	)
+
 	foreach := method(
 		subtrees foreach(subtree, 
 			if(subtree hasProto(PrefixTree), 
@@ -36,6 +44,7 @@ PrefixTree := Object clone do(
 
 isLaunchScript ifTrue(
 	tree := list("to", "today", "good") reduce(tree, word, tree insert(word), PrefixTree clone)
+	tree asMap asJson println
 	tree subTreeWithPrefix("to") foreach(x, x println)
 )
 
