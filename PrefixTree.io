@@ -21,11 +21,9 @@ PrefixTree := Object clone do(
 	)
 
 	asMap := method(
-		map := Map clone
-		subtrees foreach(key, subtree,
-			map atPut(key, if(subtree hasProto(Sequence), subtree, subtree asMap))
-		)
-		map
+		subtrees map(key, subtree, 
+			if(key isZero, list("", subtree), list(key, subtree asMap))
+		) asMap
 	)
 
 	foreach := method(
