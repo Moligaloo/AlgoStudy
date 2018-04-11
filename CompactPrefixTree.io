@@ -23,10 +23,6 @@ CompactPrefixTree := Object clone do(
 		CompactPrefixTree clone setLeaf(k)
 	)
 
-	atPut := method(
-		call delegateTo(subtrees)
-	)
-
 	insert := method(full_key, edge,
 		edge = edge ifNilEval(full_key)
 		subtrees foreach(key, subtree,
@@ -38,12 +34,15 @@ CompactPrefixTree := Object clone do(
 
 					// case 2. find common prefix, split it,
 					subtrees removeAt(key)
-
-					new_tree := CompactPrefixTree clone
-					new_tree  atPut(key exSlice(prefix size), subtree)
-					new_tree  atPut(edge exSlice(prefix size), CompactPrefixTree withLeaf(full_key))
-
-					subtrees atPut(prefix, new_tree)
+					subtrees atPut(
+						prefix,
+						CompactPrefixTree clone setSubtrees(
+							Map with(
+								key exSlice(prefix size), subtree,
+								edge exSlice(prefix size), CompactPrefixTree withLeaf(full_key)
+							)
+						)
+					)
 				)
 
 				return self
