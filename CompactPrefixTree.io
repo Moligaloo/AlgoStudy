@@ -20,7 +20,11 @@ CompactPrefixTree := Object clone do(
 	)
 
 	withLeaf := method(k,
-		CompactPrefixTree clone setLeaf(k)
+		self clone setLeaf(k)
+	)
+
+	with := method(
+		call evalArgs prepend(self clone) reduce(insert)
 	)
 
 	insert := method(full_key, edge,
@@ -90,11 +94,7 @@ CompactPrefixTree := Object clone do(
 )
 
 isLaunchScript ifTrue(
-	tree := list("test", "toaster", "toasting", "slow", "slowly") reduce(
-		tree, word,
-		tree insert(word),
-		CompactPrefixTree clone
-	)
+	tree := CompactPrefixTree with("test", "toaster", "toasting", "slow", "slowly")
 
 	tree asMap asJson println
 
