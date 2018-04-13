@@ -8,7 +8,7 @@ SuffixTree := Object clone do(
 	// time and space complexity is O(n) where n is the length of string
 	with := method(string,
 		self clone setPrefixTree(
-			Range 0 to(string size-1) asList map(i, string exSlice(i)) prepend(CompactPrefixTree clone) reduce(insert)
+			Range 0 to(string size-1) map(i, string exSlice(i)) prepend(CompactPrefixTree clone) reduce(insert)
 		)
 	)
 )
