@@ -70,7 +70,7 @@ CompactPrefixTree := Object clone do(
 		)
 	)
 
-	foreach := method(
+	foreachLeaf := method(
 		leaf ifNonNil(
 			context := Object clone appendProto(call sender)
 			context setSlot(call argAt(0) name, leaf)
@@ -98,5 +98,5 @@ isLaunchScript ifTrue(
 
 	tree asMap asJson println
 
-	tree subTreeWithPrefix("te") foreach(x, x println)
+	tree subTreeWithPrefix("te") foreachLeaf(x, x println)
 )
