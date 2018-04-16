@@ -5,10 +5,9 @@
 Object asListFromMessage := method(
 	resultList := list()
 
-	msg := call argAt(0)
-	msg appendArg(message(e))
-	msg appendArg(message(resultList push(e)))
-	doMessage(msg)
+	doMessage(
+		call argAt(0) appendArg(message(e)) appendArg(message(resultList push(e)))
+	)
 
 	resultList
 )
