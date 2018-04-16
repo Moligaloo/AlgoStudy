@@ -81,6 +81,11 @@ CompactPrefixTree := Object clone do(
 		commonSearch(call argAt(0) name, call argAt(1), message(removeFirst))
 	)
 
+	// depth first search
+	dfs := method(
+		commonSearch(call argAt(0) name, call argAt(1), message(removeLast))
+	)
+
 	// as for compact prefix tree's edge is also important, employ a new class SearchNode for iterating
 	commonSearch := method(itorName, itorCode, nextAction,
 		buffer := list(SearchNode clone setNode(self) setEdge(nil) setParent(nil))
