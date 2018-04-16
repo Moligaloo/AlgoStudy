@@ -25,9 +25,7 @@ SuffixTree := Object clone do(
 
 	// https://en.wikipedia.org/wiki/Longest_repeated_substring_problem
 	longestRepeatedSubstring := method(
-		longest := ""
-
-		prefixTree asListFromMessage(dfs) select(edge == "$") foreach(searchNode,
+		prefixTree asListFromMessage(dfs) select(edge == "$") map(searchNode,
 			edges := list()
 			node := searchNode parent
 			while(node edge,
@@ -35,13 +33,8 @@ SuffixTree := Object clone do(
 				node = node parent
 			)
 
-			string := edges reverse join
-			if(longest size < string size, 
-				longest = string
-			)
-		)
-
-		longest
+			edges reverse join
+		) reduce(a, b, if(a size > b size, a, b))
 	)
 )
 
