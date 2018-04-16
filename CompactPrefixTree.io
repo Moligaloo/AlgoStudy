@@ -84,6 +84,14 @@ CompactPrefixTree := Object clone do(
 		node ::= nil
 		edge ::= nil
 		parent ::= nil
+
+		foreachParent := method(
+			if(parent,
+				call sender setSlot(call argAt(0) name, parent)
+				call sender doMessage(call argAt(1))
+				call delegateTo(parent)
+			)
+		)
 	)
 
 	// as for compact prefix tree's edge is also important, employ a new class SearchNode for iterating
