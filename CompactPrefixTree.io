@@ -70,12 +70,6 @@ CompactPrefixTree := Object clone do(
 		)
 	)
 
-	SearchNode := Object clone do(
-		node ::= nil
-		edge ::= nil
-		parent ::= nil
-	)
-
 	// breadth first search
 	bfs := method(
 		commonSearch(call argAt(0) name, call argAt(1), message(removeFirst))
@@ -84,6 +78,12 @@ CompactPrefixTree := Object clone do(
 	// depth first search
 	dfs := method(
 		commonSearch(call argAt(0) name, call argAt(1), message(removeLast))
+	)
+
+	SearchNode := Object clone do(
+		node ::= nil
+		edge ::= nil
+		parent ::= nil
 	)
 
 	// as for compact prefix tree's edge is also important, employ a new class SearchNode for iterating
