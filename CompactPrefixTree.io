@@ -70,6 +70,32 @@ CompactPrefixTree := Object clone do(
 		)
 	)
 
+	SearchNode := Object clone do(
+		node ::= nil
+		edge ::= nil
+		parent ::= nil
+	)
+
+	// breadth first search
+	// as for compact prefix tree's edge is also important
+	bfs := method(
+		q := list(SearchNode clone setNode(self) setEdge(nil) setParent(nil))
+
+		while(q size > 0,
+			search_node := q removeFirst
+
+			context := Object clone appendProto(call sender)
+			context setSlot(call argAt(0) name, search_node)
+			context doMessage(call argAt(1))
+
+			q appendSeq(
+				search_node node subtrees asList map(pair,
+					SearchNode clone setNode(pair second) setEdge(pair first) setParent(search_node)
+				)
+			)
+		)
+	)
+
 	foreachLeaf := method(
 		leaf ifNonNil(
 			context := Object clone appendProto(call sender)
@@ -99,4 +125,6 @@ isLaunchScript ifTrue(
 	tree asMap asJson println
 
 	tree subTreeWithPrefix("te") foreachLeaf(x, x println)
+
+	tree bfs(search_node, search_node println)
 )
