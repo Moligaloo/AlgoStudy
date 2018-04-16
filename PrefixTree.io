@@ -36,9 +36,8 @@ PrefixTree := Object clone do(
 				// call recursively
 				call delegateTo(subtree), 
 				// leaf node
-				context := Object clone appendProto(call sender)
-				context setSlot(call argAt(0) name, subtree)
-				context doMessage(call argAt(1))
+				call sender setSlot(call argAt(0) name, subtree)
+				call sender doMessage(call argAt(1))
 			)
 		)
 	)
