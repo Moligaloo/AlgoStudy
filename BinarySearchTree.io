@@ -24,10 +24,8 @@ BinarySearchTree := Object clone do(
 		call delegateTo(left)
 
 		if(call argCount > 1) then(
-			itor_name := call argAt(0) name 
-			context := Object clone appendProto(call sender)
-			context setSlot(itor_name, key)
-			context doMessage(call argAt(1))
+			call sender setSlot(call argAt(0) name, key)
+			call sender doMessage(call argAt(1))
 		) elseif(call argCount == 1) then(
 			key doMessage(call argAt(0))
 		)
