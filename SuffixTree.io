@@ -11,10 +11,35 @@ SuffixTree := Object clone do(
 			Range 0 to(string size-1) map(i, string exSlice(i)) prepend(CompactPrefixTree clone) reduce(insert)
 		)
 	)
+
+	// https://en.wikipedia.org/wiki/Longest_repeated_substring_problem
+	longestRepeatedSubstring := method(
+		longest := ""
+
+		prefixTree dfs(searchNode, 
+			if(searchNode edge == "$",
+				edges := list()
+				node := searchNode parent
+				while(node edge,
+					edges push(node edge)
+					node = node parent
+				)
+
+				string := edges reverse join
+				if(longest size < string size, 
+					longest = string
+				)
+			)
+		)
+
+		longest
+	)
 )
 
 isLaunchScript ifTrue(
-	tree := SuffixTree with("banana")
+	tree := SuffixTree with("ATCGATCGA$")
 	tree prefixTree asMap asJson println
+
+	tree longestRepeatedSubstring println
 )
 
