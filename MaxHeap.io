@@ -18,8 +18,7 @@ MaxHeap := Object clone do(
 	isEmpty := method(data isEmpty)
 
 	down_heapify := method(i, 
-		max_index := list(i*2+1, i*2+2) reduce(max_index, index, 
-			if(index < size and (data at(index) > data at(max_index)), index, max_index), i)
+		max_index := list(i*2+1, i*2+2) select(< size) reduce(a, b, if(data at(a) > data at(b), a, b), i)
 
 		do(if(max_index != i, exchange(max_index, i) down_heapify(max_index)))
 	)
