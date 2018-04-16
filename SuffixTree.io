@@ -2,6 +2,17 @@
 
 // https://en.wikipedia.org/wiki/Suffix_tree
 
+Object asListFromMessage := method(
+	resultList := list()
+
+	msg := call argAt(0)
+	msg appendArg(message(e))
+	msg appendArg(message(resultList push(e)))
+	doMessage(msg)
+
+	resultList
+)
+
 SuffixTree := Object clone do(
 	prefixTree ::= nil
 
@@ -16,19 +27,17 @@ SuffixTree := Object clone do(
 	longestRepeatedSubstring := method(
 		longest := ""
 
-		prefixTree dfs(searchNode, 
-			if(searchNode edge == "$",
-				edges := list()
-				node := searchNode parent
-				while(node edge,
-					edges push(node edge)
-					node = node parent
-				)
+		prefixTree asListFromMessage(dfs) select(edge == "$") foreach(searchNode,
+			edges := list()
+			node := searchNode parent
+			while(node edge,
+				edges push(node edge)
+				node = node parent
+			)
 
-				string := edges reverse join
-				if(longest size < string size, 
-					longest = string
-				)
+			string := edges reverse join
+			if(longest size < string size, 
+				longest = string
 			)
 		)
 
