@@ -117,9 +117,8 @@ CompactPrefixTree := Object clone do(
 
 	foreachLeaf := method(
 		leaf ifNonNil(
-			context := Object clone appendProto(call sender)
-			context setSlot(call argAt(0) name, leaf)
-			context doMessage(call argAt(1))
+			call sender setSlot(call argAt(0) name, leaf)
+			call sender doMessage(call argAt(1))
 		)
 
 		subtrees foreach(subtree, call delegateTo(subtree))
