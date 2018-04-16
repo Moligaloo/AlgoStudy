@@ -72,12 +72,12 @@ CompactPrefixTree := Object clone do(
 
 	// breadth first search
 	bfs := method(
-		commonSearch(call argAt(0) name, call argAt(1), message(removeFirst))
+		commonSearch(call, message(removeFirst))
 	)
 
 	// depth first search
 	dfs := method(
-		commonSearch(call argAt(0) name, call argAt(1), message(removeLast))
+		commonSearch(call, message(removeLast))
 	)
 
 	SearchNode := Object clone do(
@@ -87,15 +87,17 @@ CompactPrefixTree := Object clone do(
 	)
 
 	// as for compact prefix tree's edge is also important, employ a new class SearchNode for iterating
-	commonSearch := method(itorName, itorCode, nextAction,
+	commonSearch := method(call, nextAction,
+		itorName := call argAt(0) name
+		itorCode := call argAt(1)
+
 		buffer := list(SearchNode clone setNode(self) setEdge(nil) setParent(nil))
 
 		while(buffer size > 0,
 			searchNode := buffer doMessage(nextAction)
 
-			context := Object clone appendProto(call sender)
-			context setSlot(itorName, searchNode)
-			context doMessage(itorCode)
+			call sender setSlot(itorName, searchNode)
+			call sender doMessage(itorCode)
 
 			buffer appendSeq(
 				searchNode node subtrees asList map(pair,
