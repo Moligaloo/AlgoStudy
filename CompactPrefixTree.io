@@ -125,6 +125,8 @@ CompactPrefixTree := Object clone do(
 	)
 
 	asMap := method(
+		if(subtrees size == 0, return leaf)
+
 		map := Map clone
 
 		leaf ifNonNil(map atPut("", leaf))
