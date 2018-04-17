@@ -23,17 +23,17 @@ SuffixTree := Object clone do(
 	)
 
 	// https://en.wikipedia.org/wiki/Longest_repeated_substring_problem
-	longestRepeatedSubstring := method(
-		prefixTree asListFromMessage(dfs) map(
+	longestRepeatedSubstring := method(string,
+		self with(string .. "$") prefixTree asListFromMessage(dfs) map(
 			asListFromMessage(foreachParent) select(edge) map(edge) reverse join
 		) reduce(a, b, if(a size > b size, a, b))
 	)
 )
 
 isLaunchScript ifTrue(
-	tree := SuffixTree with("ATCGATCGA$")
+	tree := SuffixTree with("banana$")
 	tree prefixTree asMap asJson println
 
-	tree longestRepeatedSubstring println
+	SuffixTree longestRepeatedSubstring("ATCGATCGA") println
 )
 
