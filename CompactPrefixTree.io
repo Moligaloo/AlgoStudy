@@ -125,17 +125,10 @@ CompactPrefixTree := Object clone do(
 	)
 
 	asMap := method(
-		if(subtrees size == 0, return leaf)
-
-		map := Map clone
-
-		leaf ifNonNil(map atPut("", leaf))
-
-		subtrees foreach(key, subtree, 
-			map atPut(key, subtree asMap)
+		if(subtrees isEmpty, 
+			leaf,
+			subtrees asList map(pair, list(pair first, pair second asMap)) append(list("", leaf)) select(second) asMap
 		)
-
-		map
 	)
 )
 
