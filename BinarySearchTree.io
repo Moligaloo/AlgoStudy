@@ -50,6 +50,17 @@ BinarySearchTree := Object clone do(
 		if(right == null, key, right max)
 	)
 
+	asJsonValue := method(
+		if(left == null and right == null, 
+			key,
+			list(
+				list("key", key ifNonNilEval(key asString)),
+				list("left", left ifNonNilEval(left asJsonValue)),
+				list("right", right ifNonNilEval(right asJsonValue))
+			) select(second) asMap
+		)
+	)
+
 	null := clone do(
 		insert = method(k, BinarySearchTree withLeaf(k))
 		lookup = method(nil)		
@@ -66,6 +77,7 @@ isLaunchScript ifTrue(
 		lookup(100) println
 
 		foreach(x, "(#{x})" interpolate println)
+		asJsonValue asJson println
 	)
 )
 
