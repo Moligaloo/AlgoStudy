@@ -61,12 +61,32 @@ BinarySearchTree := Object clone do(
 		)
 	)
 
+	remove := method(k,
+		if(key == k,
+			removeRoot,
+			if(k < key, left = left remove(k))
+			if(k > key, right = right remove(k))
+			self
+		)
+	)
+
+	removeRoot := method(
+		if(left == null, return right)
+		if(right == null, return left)
+
+		key = left key
+		left = left removeRoot
+		self
+	)
+
 	null := clone do(
 		insert = method(k, BinarySearchTree withLeaf(k))
 		lookup = method(nil)		
 		min = method(nil)
 		max = method(nil)
 		foreach = method(self)
+		remove = method(self)
+		removeRoot = method(self)
 	)
 )
 
